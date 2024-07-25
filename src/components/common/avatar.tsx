@@ -1,28 +1,21 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import React from 'react'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+  } from "@/components/ui/avatar"
 
-export default function UserAvatar() {
+  interface UserImgProps {
+    fullName: string
+    url?: string
+  }
+
+export const UserImg = ({fullName, url}: UserImgProps) => {
+    const names = fullName.split(" ");
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Avatar className="h-9 w-9 cursor-pointer">
-          <AvatarImage src="/placeholder-user.jpg" />
-          <AvatarFallback>JP</AvatarFallback>
-          <span className="sr-only">Toggle user menu</span>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>My Account</DropdownMenuItem>
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+    <Avatar>
+      <AvatarImage src={url ?? "https://github.com/shadcn.png"} alt="@shadcn" />
+      <AvatarFallback>{names[0][0]}{names[1] ? names[1][0] : "CN"}</AvatarFallback>
+    </Avatar>
+  )
 }

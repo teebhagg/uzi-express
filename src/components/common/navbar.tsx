@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import UserAvatar from "./avatar";
+import UserAvatar from "./user";
 import DesktopNavMenu from "./nav/desktop";
 import MobileNavMenu from "./nav/mobile";
 import { SearchBar } from "./search";
