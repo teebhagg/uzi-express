@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const ImgUrl =
@@ -22,12 +23,16 @@ export default function HeroSection() {
             professional development, we&apos;ve got you covered.
           </p>
         </div>
-        <Link
-          href="#"
-          className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white text-sm font-medium shadow-sm w-24 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-          prefetch={false}>
-          Join Now
-        </Link>
+        <Link href="/about">
+            <Button
+              variant="ghost"
+              className="mt-4 mx-2 text-white border border-white hover:border-0"
+              // style={{ whiteSpace: "pre-wrap" }}
+              style={{ whiteSpace: 'normal', width: 'auto', height: 'auto', textAlign: 'center' }}
+            >
+              Join Now
+            </Button>
+          </Link>
       </div>
     </div>
   );
