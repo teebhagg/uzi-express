@@ -18,7 +18,9 @@ export type ProductWithIncludes = Prisma.ProductGetPayload<{
      brand: true;
      categories: true;
   };
-}>;
+}> & {
+   rating: number
+};
 
 export type UserWithIncludes = Prisma.UserGetPayload<{
   include: {
