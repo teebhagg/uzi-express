@@ -92,7 +92,9 @@ export type BrandWithIncludes = Prisma.BrandGetPayload<{
    include: {
       products: false;
    }
-}>;
+}> & {
+   slug: string;
+};
 
 export type CategoryWithIncludes = Prisma.CategoryGetPayload<{
    include: {
