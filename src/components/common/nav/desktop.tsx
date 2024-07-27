@@ -42,12 +42,12 @@ export default function DesktopNavMenu() {
             <div className="font-normal text-foreground/70">Categories</div>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ScrollArea className="h-[400px] w-[350px] rounded-md border p-4">
+            <ScrollArea className="max-h-[400px] w-[350px] rounded-md border p-4">
               {categories.map((category) => (
                 <div>
                   <ListItem
                     key={category.id}
-                    title={category.slug}
+                    title={category.title}
                     href={category.slug}
                   />
                   <Separator />

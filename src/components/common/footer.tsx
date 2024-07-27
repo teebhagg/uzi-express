@@ -3,7 +3,7 @@ export default function Footer() {
   let startYear: number = 2024;
   return (
     <footer className="lg:grid lg:grid-cols-5">
-      <div className="relative block h-32 lg:col-span-2 lg:h-full">
+      <div className="relative block h-32 lg:col-span-2 lg:h-auto">
         <img
           src="https://images.unsplash.com/photo-1642370324100-324b21fab3a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1548&q=80"
           alt=""

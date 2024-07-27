@@ -13,7 +13,7 @@ export default function ProductDetails() {
     let product = productData[0];
   return (
     <div className="bg-background">
-      <div className="container mx-auto py-12 md:py-16 lg:py-20">
+      <div className="py-12 md:py-16 lg:py-20">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <CarouselImages imgUrl={product.images} />
           <Details

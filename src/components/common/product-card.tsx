@@ -72,9 +72,11 @@ export const Product = ({ product }: { product: ProductWithIncludes }) => {
           </div>
         </CardHeader>
         <CardContent className="grid gap-1 p-4">
-          <Badge variant="outline" className="w-min text-neutral-500">
-            {product?.categories[0]?.title}
-          </Badge>
+         <div>
+            <Badge variant="outline" className="w-auto text-neutral-500">
+               {product?.categories[0]?.title}
+            </Badge>
+         </div>
 
           <h2 className="mt-2">{product.title}</h2>
           <p className="text-xs text-neutral-500 line-clamp-3">

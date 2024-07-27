@@ -12,8 +12,8 @@ import { SearchBar } from "./search";
 export default function NavBar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white dark:border-gray-800 dark:bg-gray-950">
-      <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
-        <Link href="#" className="flex items-center gap-2" prefetch={false}>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
+        <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <h1 className="text-3xl font-bold text-violet-600 dark:text-violet-400">
             uzi
           </h1>
