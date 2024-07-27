@@ -88,6 +88,7 @@ model Brand {
     id          String  @id @default(cuid())
     title       String  @unique
     description String?
+    slug        String  @unique
     logo        String?
 
     products Product[]
@@ -102,6 +103,7 @@ model Product {
     metadata    Json?
 
     price    Float @default(100)
+    rating   Int
     discount Float @default(0)
     stock    Int   @default(0)
 
@@ -117,7 +119,8 @@ model Product {
     brand   Brand  @relation(fields: [brandId], references: [id])
     brandId String
 
-    categories Category[]
+    categories  Category[]
+    subCategory SubCategory[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -129,9 +132,26 @@ model Category {
     id          String  @id @default(cuid())
     title       String  @unique
     description String?
+    slug        String  @unique
+
+    products      Product[]
+    banners       Banner[]
+    subCategories SubCategory[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model SubCategory {
+    id          String  @id @default(cuid())
+    title       String  @unique
+    description String?
+    slug        String  @unique
+
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId String
 
     products Product[]
-    banners  Banner[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
