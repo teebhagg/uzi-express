@@ -105,7 +105,9 @@ export type CategoryWithIncludes = Prisma.CategoryGetPayload<{
       products: true;
       banners: true;
    }
-}>;
+}> & {
+   slug: string;
+};
 
 export type SubCategoryWithIncludes = Prisma.SubCategoryGetPayload<{
    include: {
