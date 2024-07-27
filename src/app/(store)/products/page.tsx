@@ -185,7 +185,7 @@ export default function Component() {
               <ScrollArea className=" whitespace-nowrap md:max-w-[400px] overflow-scroll rounded-md">
                 <div className="flex items-center gap-2">
                   {categories.map((category) =>
-                    category.subCategories.map((subCategory) => (
+                    (category.subCategories && (category.subCategories as SubCategoryWithIncludes[]).map((subCategory) => (
                       <Button
                         key={subCategory.id}
                         variant={
@@ -197,7 +197,7 @@ export default function Component() {
                         onClick={() => handleTagSelect(subCategory.title)}>
                         {subCategory.title}
                       </Button>
-                    ))
+                    )))
                   )}
                 </div>
                 <Scrollbar orientation="horizontal" />
