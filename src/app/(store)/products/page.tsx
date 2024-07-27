@@ -54,9 +54,9 @@ export default function Component() {
         );
       const hasSelectedTag =
         selectedTag === null ||
-        product.subCategory.some((subCategory) =>
+        (product.subCategory && product.subCategory.some((subCategory) =>
           subCategory.title.includes(selectedTag)
-        );
+        ));
       return inPriceRange && inCategory && inBrand && hasSelectedTag;
     });
   }, [selectedFilters, selectedTag]);
