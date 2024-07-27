@@ -1,7 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { MenuIcon } from "lucide-react";
+import {
+  Sheet,
+  SheetHeader,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
+import { ChevronRightIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
+import { categories } from "@/utils/data/categories";
+import { brands } from "@/utils/data/brands";
 
 export default function MobileNavMenu() {
   return (
@@ -17,32 +29,49 @@ export default function MobileNavMenu() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="md:hidden">
-          <div className="grid gap-4 p-4">
+          <nav className="flex-1 overflow-auto px-4 py-6 space-y-2">
             <Link
-              href="/"
-              className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/products"
               prefetch={false}>
-              Home
+              <div className="w-full p-10 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted">
+                Products
+              </div>
             </Link>
-            <Link
-              href="/about"
-              className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              prefetch={false}>
-              About
-            </Link>
-            <Link
-              href="/services"
-              className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              prefetch={false}>
-              Services
-            </Link>
-            <Link
-              href="/contact"
-              className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              prefetch={false}>
-              Contact
-            </Link>
-          </div>
+            <Collapsible className="grid gap-2">
+              <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted [&[data-state=open]>svg]:rotate-90">
+                Categories
+                <ChevronRightIcon className="h-5 w-5 transition-transform" />
+              </CollapsibleTrigger>
+              <CollapsibleContent className="grid gap-1 pl-4">
+                {categories.map((category) => (
+                  <Link
+                    key={category.id}
+                    href={category.slug}
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted"
+                    prefetch={false}>
+                    {category.title}
+                  </Link>
+                ))}
+              </CollapsibleContent>
+            </Collapsible>
+            <Collapsible className="grid gap-2">
+              <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted [&[data-state=open]>svg]:rotate-90">
+                Brands
+                <ChevronRightIcon className="h-5 w-5 transition-transform" />
+              </CollapsibleTrigger>
+              <CollapsibleContent className="grid gap-1 pl-4">
+                {brands.map((brand) => (
+                  <Link
+                    key={brand.id}
+                    href={brand.slug}
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted"
+                    prefetch={false}>
+                    {brand.title}
+                  </Link>
+                ))}
+              </CollapsibleContent>
+            </Collapsible>
+          </nav>
         </SheetContent>
       </Sheet>
     </div>
