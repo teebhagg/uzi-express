@@ -13,8 +13,8 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
-      <div className="flex-1 mx-auto px-[1.4rem] max-w-7xl">
-        <div>
+      <div className="flex-1 w-full px-[1.4rem]">
+        <div className="mx-auto max-w-7xl w-full">
           {children}
         </div>
       </div>
