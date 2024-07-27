@@ -20,6 +20,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Scrollbar } from "@radix-ui/react-scroll-area";
 import { categories } from "@/utils/data/categories";
 import { brands } from "@/utils/data/brands";
+import { SubCategoryWithIncludes } from "@/lib/prisma";
 
 type SelectedFilters = {
   priceRange: [number, number];
@@ -54,7 +55,7 @@ export default function Component() {
         );
       const hasSelectedTag =
         selectedTag === null ||
-        (product.subCategory && product.subCategory.some((subCategory) =>
+        (product.subCategory && (product.subCategory as SubCategoryWithIncludes[]).some((subCategory) =>
           subCategory.title.includes(selectedTag)
         ));
       return inPriceRange && inCategory && inBrand && hasSelectedTag;
