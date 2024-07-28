@@ -14,6 +14,9 @@ import { ChevronRightIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { categories } from "@/utils/data/categories";
 import { brands } from "@/utils/data/brands";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 export default function MobileNavMenu() {
   return (
@@ -28,11 +31,17 @@ export default function MobileNavMenu() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="md:hidden">
-          <nav className="flex-1 overflow-auto px-4 py-6 space-y-2">
-            <Link
-              href="/products"
-              prefetch={false}>
+        <SheetContent
+          side="left"
+          className="md:hidden flex h-full max-h-screen flex-col">
+          <Link href="/" className="flex items-center gap-2" prefetch={false}>
+            <p className="text-3xl font-bold text-violet-600 dark:text-violet-400">
+              uzi
+            </p>
+          </Link>
+          <Separator className="p-0 m-0" />
+          <nav className="flex-1 overflow-scroll pb-6 space-y-2">
+            <Link href="/products" prefetch={false}>
               <div className="w-full p-10 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted">
                 Products
               </div>
@@ -71,6 +80,14 @@ export default function MobileNavMenu() {
                 ))}
               </CollapsibleContent>
             </Collapsible>
+            <Link href="/cart" prefetch={false} >
+              <div className="w-full p-10 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted space-x-2">
+                <div className="flex items-center gap-2 w-fit">
+                  <p>Cart</p>
+                  <Badge className="bg-red-600 rounded-full text-white">0</Badge>
+                </div>
+              </div>
+            </Link>
           </nav>
         </SheetContent>
       </Sheet>
