@@ -10,7 +10,10 @@ export type CartItemWithProduct = Prisma.CartItemGetPayload<{
       };
     };
   };
-}>;
+}> & {
+   id: string;
+   count: number;
+};
 
 export type ProductWithIncludes = Prisma.ProductGetPayload<{
   include: {
