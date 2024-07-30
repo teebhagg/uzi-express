@@ -9,6 +9,8 @@ interface LayoutProps {
   children: ReactNode;
 }
 
+export const revalidate = 0;
+
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className="flex flex-col min-h-screen">
