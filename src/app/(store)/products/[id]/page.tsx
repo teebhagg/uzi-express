@@ -30,13 +30,7 @@ export default function ProductDetails() {
             {loading || !product ? (
               <Skeleton className="h-full w-full" />
             ) : (
-              <Details
-                title={product.title}
-                price={product.price}
-                brand={product.brand.title}
-                rating={0}
-                discountedPrice={product.discount}
-              />
+              <Details product={product} />
             )}
           </div>
           <div className="mt-12 md:mt-16 lg:mt-20">
@@ -46,7 +40,7 @@ export default function ProductDetails() {
             ) : (
               <div className="grid gap-8 py-8 md:py-12 lg:py-16">
                 <div>
-                  <h2 className="text-2xl font-bold">Product Details</h2>
+                  <h2 className="text-2xl font-bold">Product Description</h2>
                   <div className="mt-4 text-muted-foreground">
                     <p>{product.description}</p>
                   </div>

@@ -3,41 +3,82 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { cartItemData } from "@/utils/data/cart-items";
 import { TrashIcon } from "lucide-react";
-import { CartItemWithProduct } from "@/lib/prisma";
+import { CartItemWithProduct, CartWithIncludes } from "@/lib/prisma";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppSelector } from "@/utils/hooks/redux-hooks";
+import { useDispatch } from "react-redux";
+import { updateCart } from "@/utils/redux/features/cart-slice";
+import { useLocalStorage } from "usehooks-ts";
 
 export default function Cart() {
-  const [items, setItems] = useState<CartItemWithProduct[]>(cartItemData);
+
+  const [cartData, setCartData, removeCart] = useLocalStorage<
+    Partial<CartWithIncludes>
+  >("cart", {});
+  const cart = useAppSelector((state) => state.cart)
+  const dispatch = useDispatch();
+  // const [items, setItems] = useState<CartItemWithProduct[]>(cartItemData);
   const handleQuantityChange = (id: string, quantity: number) => {
-    setItems(
-      items.map((item) =>
-        item.id === id ? { ...item, count: quantity } : item
-      )
-    );
+    if (!cart.items) return;
+
+  const newCartItems = cart.items.map((item) =>
+    item.productId === id ? { ...item, count: quantity } : item
+  );
+
+  dispatch(updateCart({ ...cart, items: newCartItems }));
+  setCartData({ ...cart, items: newCartItems });
   };
+  
   const handleRemoveItem = (id: string) => {
-    setItems(items.filter((item) => item.id !== id));
+    if (!cart.items) return;
+    const newCartItems = cart.items.filter((item) => item.productId !== id);
+    console.log(newCartItems)
+    dispatch(updateCart({
+      ...cart,
+      items: newCartItems,
+    }))
+    setCartData({ ...cart, items: newCartItems })
   };
-  const total = items.reduce(
+
+  const handleClearCart = () => {
+    if (!cart.items) return;
+    dispatch(updateCart({
+      ...cart,
+      items: [],
+    }))
+    removeCart()
+  }
+
+  const total = cart.items ? cart?.items.reduce(
     (acc, item) => acc + item.product.price * item.count,
     0
-  );
+  ) : 0;
   const tax = total * 0.08;
+
+  useEffect(() => {
+    if (!cartData) return;
+    dispatch(updateCart(cartData));
+  }, [cartData]);
 
   return (
     <main
       className={`grid gap-8 py-4 sm:py-6 md:py-8 ${
-        items && items.length > 0 && "md:grid-cols-[1fr_320px]"
+        cart.items && cart.items.length > 0 && "md:grid-cols-[1fr_320px]"
       }`}>
       <div>
-        <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
+          {cart.items && cart.items.length > 0 && <Button variant="destructive" size="sm" onClick={handleClearCart}>
+            Clear Cart
+          </Button>}
+        </div>
         <div className="space-y-6">
-          {items && items.length > 0 ? (
-            items.map((item) => (
+          {cart.items && cart.items.length > 0 ? (
+            cart.items.map((item) => (
               <CartItem
                 key={item.id}
                 item={item}
@@ -52,7 +93,7 @@ export default function Cart() {
           )}
         </div>
       </div>
-      {items && items.length > 0 && (
+      {cart.items && cart.items.length > 0 && (
         <div className="bg-muted rounded-lg p-6 space-y-6 h-fit sticky top-[80px]">
           <div>
             <h2 className="text-lg font-bold mb-2">Order Summary</h2>
@@ -122,7 +163,7 @@ const CartItem = ({ item, onQuantityChange, onRemove }: CartItemProps) => {
       <div className="flex-grow">
         <p className="font-medium">{product.title}</p>
         <p className="text-muted-foreground text-sm">{product.brand.title}</p>
-        <p className="font-bold"> $ {product.price * count}</p>
+        <p className="font-bold"> $ {(product.price * count).toFixed(2)}</p>
       </div>
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-3">
@@ -131,7 +172,7 @@ const CartItem = ({ item, onQuantityChange, onRemove }: CartItemProps) => {
             disabled={count === 1}
             size="sm"
             className="rounded-full"
-            onClick={() => onQuantityChange(item.id, count - 1)}>
+            onClick={() => onQuantityChange(item.productId, count - 1)}>
             -
           </Button>
           <span>{count}</span>
@@ -139,12 +180,12 @@ const CartItem = ({ item, onQuantityChange, onRemove }: CartItemProps) => {
             variant="outline"
             size="sm"
             className="rounded-full"
-            onClick={() => onQuantityChange(item.id, count + 1)}>
+            onClick={() => onQuantityChange(item.productId, count + 1)}>
             +
           </Button>
         </div>
         <div className="text-right font-medium">
-          <Button size="icon" variant="ghost" className="rounded-full" onClick={() => onRemove(item.id)}>
+          <Button size="icon" variant="ghost" className="rounded-full" onClick={() => onRemove(item.productId)}>
             <TrashIcon color="red" className="h-5 w-5" />
           </Button>
         </div>

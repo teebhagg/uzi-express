@@ -314,7 +314,7 @@ export default function Component() {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr] xl:grid-cols-[400px_1fr] gap-8">
-        <div className="rounded-lg border p-4 h-min md:sticky md:top-[80px]">
+        <div className="rounded-lg border p-4 h-min lg:sticky md:top-[80px]">
           <h2 className="text-lg font-bold mb-4">Filters</h2>
           <FilterCategory
             categories={categories}

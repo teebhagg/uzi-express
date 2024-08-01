@@ -9,6 +9,13 @@ import DesktopNavMenu from "./nav/desktop";
 import MobileNavMenu from "./nav/mobile";
 import { SearchBar } from "./search";
 import { Badge } from "../ui/badge";
+import { useAppSelector } from "@/utils/hooks/redux-hooks";
+import { useFetch } from "@/utils/hooks/useFetch";
+import { useDispatch } from "react-redux";
+import { updateCart } from "@/utils/redux/features/cart-slice";
+import { CartWithIncludes } from "@/lib/prisma";
+import { useLocalStorage } from "usehooks-ts";
+import { use, useEffect } from "react";
 
 export default function NavBar() {
   return (
@@ -53,12 +60,26 @@ function ThemeToggle() {
 }
 
 function CartButton() {
+  const [cartData, setCartData, removeCart] = useLocalStorage<
+    Partial<CartWithIncludes>
+  >("cart", {});
+  const cart = useAppSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user);
+  // const { data, error, loading } = useFetch<CartWithIncludes>(`/api/cart/${user.id}`);
+  // const dispatch = useDispatch();
+  // data && dispatch(updateCart(data));
+  // data && console.log(data)
+  useEffect(() => {
+    if (!cartData?.items) return;
+    dispatch(updateCart(cartData));
+  }, [cartData]);
   return (
     <Link href="/cart" passHref className="hidden md:inline-block relative ">
       <Button variant="outline" size="icon" className="rounded-full border-[1px]">
         <ShoppingCartIcon className="h-4" />
       </Button>
-      <Badge className="absolute top-[4px] right-[1px] inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">0</Badge>
+      {(cart.items && cart.items.length > 0) && <Badge className="absolute top-[4px] right-[1px] inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{cart.items.length ?? 0}</Badge>}
     </Link>
   );
 }

@@ -12,7 +12,8 @@ model User {
     email String? @unique
     phone String? @unique
 
-    name String?
+    name  String?
+    image String?
 
     OTP                   String?
     OTPExpiry             DateTime?

@@ -12,7 +12,7 @@ import Image from "next/image";
 import React, { Suspense } from "react";
 
 interface CarouselImagesProps {
-    imgUrl: string[];
+  imgUrl: string[];
 }
 
 export default function CarouselImages({ imgUrl }: CarouselImagesProps) {
@@ -32,7 +32,11 @@ export default function CarouselImages({ imgUrl }: CarouselImagesProps) {
                   alt="Product Image"
                   width={800}
                   height={600}
-                  className="object-cover w-full aspect-[4/3]"
+                  data-loaded='false'
+                  onLoad={event => {
+                     event.currentTarget.setAttribute('data-loaded', 'true')
+                  }}               
+                  className="object-cover w-full aspect-[4/3] data-[loaded=false]:animate-pulse data-[loaded=false]:bg-gray-100/10"
                 />
               </Suspense>
             </CarouselItem>

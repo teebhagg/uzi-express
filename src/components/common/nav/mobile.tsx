@@ -17,8 +17,26 @@ import { brands } from "@/utils/data/brands";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { CartWithIncludes } from "@/lib/prisma";
+import { useAppSelector } from "@/utils/hooks/redux-hooks";
+import { useDispatch } from "react-redux";
+import { useLocalStorage } from "usehooks-ts";
+import { useEffect } from "react";
+import { updateCart } from "@/utils/redux/features/cart-slice";
 
 export default function MobileNavMenu() {
+  const [cartData, setCartData, removeCart] = useLocalStorage<
+    Partial<CartWithIncludes>
+  >("cart", {});
+  const cart = useAppSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!cartData?.items) return;
+    dispatch(updateCart(cartData));
+  }, [cartData]);
+
   return (
     <div>
       <Sheet>
@@ -80,11 +98,15 @@ export default function MobileNavMenu() {
                 ))}
               </CollapsibleContent>
             </Collapsible>
-            <Link href="/cart" prefetch={false} >
+            <Link href="/cart" prefetch={false}>
               <div className="w-full p-10 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted space-x-2">
                 <div className="flex items-center gap-2 w-fit">
                   <p>Cart</p>
-                  <Badge className="bg-red-600 rounded-full text-white">0</Badge>
+                  {cart.items && cart.items.length > 0 && (
+                    <Badge className="bg-red-600 rounded-full text-white">
+                      {cart.items.length ?? 0}
+                    </Badge>
+                  )}
                 </div>
               </div>
             </Link>
