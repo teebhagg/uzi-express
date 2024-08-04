@@ -31,7 +31,7 @@ export default function UserAvatar() {
     loading: userLoading,
   } = useFetch<UserWithIncludes>(`/api/user/${userId}`);
   const router = useRouter();
-  const windowUrl = window.location.href;
+  const windowUrl = typeof window !== "undefined" ? window.location.href : "";
 
   useEffect(() => {
     if (data) {
