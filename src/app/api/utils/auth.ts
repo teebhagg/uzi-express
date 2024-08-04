@@ -74,35 +74,9 @@ export const handlers = NextAuth({
         };
       },
     }),
-
-    // EmailProvider({
-    //   generateVerificationToken() {
-    //     // Generate a 6 digits number as a verification code
-    //     return String(Math.floor(100000 + Math.random() * 900000));
-    //   },
-    //   server: {
-    //     host: process.env.EMAIL_SERVER_HOST,
-    //     port: process.env.EMAIL_SERVER_PORT,
-    //     auth: {
-    //       user: process.env.EMAIL_SERVER_USER,
-    //       pass: process.env.EMAIL_SERVER_PASSWORD,
-    //     },
-    //   },
-    //   from: process.env.EMAIL_FROM,
-    //   maxAge: 60 * 60,
-    //   sendVerificationRequest: async ({
-    //     identifier: email,
-    //     url,
-    //     token,
-    //     provider,
-    //   }) => {
-    //     const subject = "Your OTP link for UZI-Express";
-    //     const htmlContent = `<p>Your OTP PIN: ${token} </p>`;
-    //     await sendEmail(email, subject, htmlContent);
-    //   },
-    // }),
   ],
   // adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
@@ -133,12 +107,15 @@ export const handlers = NextAuth({
                     email: user.email,
                 }
             })
-            if (!userData?.name) {
-              throw new Error('Name is empty')
-              // return false
-            }
+            // if (!userData?.name) {
+            //   console.log(userData)
+            //   throw new Error('Name is empty')
+            //   // return false
+            // }
+            user.id = userData?.id!
+            user.image = userData?.image
             if (!userData) {
-                await prisma.user.create({
+                const newUser = await prisma.user.create({
                     data: {
                       email: user.email,
                       name: user.name,
@@ -146,8 +123,9 @@ export const handlers = NextAuth({
                       isEmailVerified: true
                     }
                   })
-                }
-            user.id = userData?.id!
+                user.id = newUser.id
+                user.image = newUser.image
+            }
             return true
         } catch (error: any) {
           throw new Error(error.message)
@@ -155,7 +133,6 @@ export const handlers = NextAuth({
         }
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/auth/signin",
     signOut: "/",
