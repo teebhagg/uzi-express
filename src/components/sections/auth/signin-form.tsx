@@ -104,11 +104,11 @@ export default function SignInForm() {
 
     console.log(res);
 
-    if (!res || res?.error) {
+    if (res?.error) {
         toast({
             variant: "destructive",
             title: "Error!",
-            description: "Sign in failed.",
+            description: res.error || "Sign in failed.",
         });
         return;
     }

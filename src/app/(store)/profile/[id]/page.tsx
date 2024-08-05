@@ -128,7 +128,7 @@ export default function Component() {
       return;
     }
     const updatedUser = (await res.json()) as UserWithIncludes;
-    var newSession = await update({ ...session?.user, name: updatedUser.name, picture: updatedUser.image, email: updatedUser.email });
+    await update({ ...session?.user, name: updatedUser.name, picture: updatedUser.image, email: updatedUser.email });
     dispatch(setUser(updatedUser));
     toast({
       title: "Success",
